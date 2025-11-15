@@ -1,0 +1,76 @@
+path: ../../data/dataset1k/
+train: images/train
+val: images/val
+test: ../inference/images
+nc: 70
+names:
+ 0: Nóc xe
+ 1: Viền nóc (mui)
+ 2: Pa vô lê
+ 3: Kính chắn gió trước
+ 4: Ca pô trước
+ 5: Ca lăng
+ 6: Lốp phụ sau xe
+ 7: Ba đờ sốc trước
+ 8: Lưới ba đờ sốc
+ 9: Ốp ba đờ sốc trước
+ 10: Lô gô
+ 11: Đèn phản quang ba đờ sốc sau
+ 12: Cốp sau / Cửa hậu
+ 13: Ba đờ sốc sau
+ 14: Ốp ba đờ sốc sau
+ 15: Kính chắn gió sau
+ 16: Đèn gầm
+ 17: Ốp đèn gầm
+ 18: Cụm đèn trước
+ 19: Mặt gương (kính) chiếu hậu
+ 20: Vỏ gương (kính) chiếu hậu
+ 21: Chân gương (kính) chiếu hậu
+ 22: Đèn xi nhan trên gương chiếu hậu
+ 23: Trụ kính trước
+ 24: Tai (vè trước) xe
+ 25: Ốp Tai (vè trước) xe
+ 26: Đèn xi nhan ba đ sốc
+ 27: Ốp đèn xi nhan ba đ sốc
+ 28: Đèn hậu
+ 29: Kính chết góc cửa
+ 30: Kính hông
+ 31: Hông (vè sau) xe / thùng xe
+ 32: Trụ kính sau
+ 33: Đèn hậu trên cốp sau
+ 34: La giăng (Mâm xe)
+ 35: Lốp (vỏ) xe
+ 36: Tay mở cửa
+ 37: Kính cánh cửa
+ 38: Cánh cửa
+ 39: Móp, bẹp(thụng)
+ 40: Vỡ, nứt
+ 41: Thủng, rách
+ 42: Trầy, xước
+ 43: Trụ kính cánh cửa
+ 44: Ốp hông (vè sau) xe / thùng xe
+ 45: Nẹp cốp sau
+ 46: Bậc cánh cửa
+ 47: Nẹp ca pô trước
+ 48: Biển số xe
+ 49: Đèn đi ban ngày
+ 50: Ốp cánh cửa
+ 51: Ốp viền gầm cản trước
+ 52: Ốp ba đờ sốc sau LR
+ 53: Ốp ba đờ sốc trước LR
+ 54: Ốp cánh cửa FB
+ 55: Kính chết góc cửa trước
+ 56: Tên dòng xe
+ 57: Nẹp ca lăng
+ 58: Nẹp kính cánh cửa
+ 59: Nẹp cánh cửa
+ 60: Nắp thùng xe
+ 61: Nắp thùng xe LR
+ 62: Nắp thùng xe sau
+ 63: Kính nắp thùng xe sau
+ 64: Kính nắp thùng xe LR
+ 65: Trụ cánh cửa
+ 66: Long, rụng
+ 67: Nắp bình xăng
+ 68: Thùng xe tải
+ 69: Mất
