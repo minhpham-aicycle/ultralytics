@@ -1,5 +1,5 @@
 
-
+import numpy as np
 from ultralytics import YOLO
 from ultralytics import RTDETR
 from ultralytics.utils import LOGGER
@@ -490,13 +490,27 @@ def model_evaluation():
     print(f"All_ap: {metrics.box.all_ap:.4f}")
     print(f"All_ap: {metrics.box.ap_class_index:.4f}")
 
+def compute_class_weight():
+    # số lượng mẫu từng class
+    samples = np.array([510, 88, 119, 2015, 99, 12])
+
+    # tính weight ngược với tần suất
+    cls_weight = 1 / (samples / samples.sum())
+    cls_weight = cls_weight / cls_weight.sum()  # chuẩn hóa tổng =1
+
+    print(cls_weight)
+    # Output: [   0.016953    0.098252    0.072657   0.0042909    0.087335     0.72051]
+
+
 if __name__ == "__main__":
     #model_evaluation()
     #issue4_fn_test()
     #issue4_fn_fix()
+    #compute_class_weight()
 
     #train('train_yolov9c_config_baseline.yml')
-    train('train_yolov9c_config_clean_class.yml')
+    #train('train_yolov9c_config_clean_class.yml')
+    train('train_yolov9c_config_clean_class_clsw.yml')
     #CLASS_NAME = 42   
     #model = YOLO('runs/segment/my_experiment3/weights/best.pt') 
     #p, r, info = precision_recall_for_class(model, DATA_YAML_PATH, CLASS_NAME, conf=0.2, iou_thr=0.3)
