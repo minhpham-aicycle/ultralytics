@@ -2,6 +2,11 @@
 
 from ultralytics import YOLO
 from ultralytics import RTDETR
+from ultralytics.utils import LOGGER
+import logging
+#from loguru import logger
+import re
+import pty
 
 # Đường dẫn tới file cấu hình dữ liệu
 DATA_YAML_PATH = 'data1k.yaml'  # Cập nhật đường dẫn nếu cần
@@ -15,6 +20,91 @@ import numpy as np
 import torch
 import os
 
+import sys
+import os
+import shutil
+
+def zip_result(results_dir: str):
+    """
+    Zip toàn bộ thư mục kết quả train YOLO .
+
+    Args:
+        results_dir (str): Thư mục kết quả train YOLO (results.save_dir)
+    Returns:
+        str: Đường dẫn file zip tạo ra
+    """
+    if not os.path.exists(results_dir):
+        raise FileNotFoundError(f"Thư mục kết quả train không tồn tại: {results_dir}")
+
+    # Lấy tên thư mục
+    parent_dir, folder_name = os.path.split(results_dir)
+    
+    # Tạo zip file với tên giống thư mục
+    zip_base = os.path.join(parent_dir, folder_name)
+    zip_path = shutil.make_archive(zip_base, 'zip', results_dir)
+    print(f"Đã tạo file zip: {zip_path}")
+
+    return zip_path
+
+
+def copy_to_onedrive(zip_path: str, onedrive_dir: str):
+    """
+    Copy file zip vào OneDrive.
+
+    Args:
+        zip_path (str): File zip cần copy
+        onedrive_dir (str): Thư mục OneDrive trên máy
+    Returns:
+        str: Đường dẫn file zip trong OneDrive
+    """
+
+    # Copy zip vào OneDrive
+    dest_path = os.path.join(onedrive_dir, os.path.basename(zip_path))
+    shutil.copy(zip_path, dest_path)
+    print(f"Đã copy file zip vào: {dest_path}")
+
+    return dest_path
+
+
+# ------------------------------
+# Hàm tạo thư mục và file log
+# ------------------------------
+def create_log_file(save_dir: str, log_filename: str = "terminal_out.txt"):
+    os.makedirs(save_dir, exist_ok=True)
+    log_file_path = os.path.join(save_dir, log_filename)
+    log_file = open(log_file_path, "w", encoding="utf-8")  # overwrite
+    return log_file, log_file_path
+
+# ------------------------------
+# Hàm redirect stdout/stderr qua PTY
+# ------------------------------
+def redirect_output_to_pty():
+    master_fd, slave_fd = pty.openpty()
+    # Backup stdout/stderr cũ
+    old_stdout_fd = sys.stdout.fileno()
+    old_stderr_fd = sys.stderr.fileno()
+    # Redirect stdout + stderr sang PTY
+    os.dup2(slave_fd, old_stdout_fd)
+    os.dup2(slave_fd, old_stderr_fd)
+    return master_fd, slave_fd
+
+# ------------------------------
+# Hàm đọc PTY và ghi ra terminal + file log
+# ------------------------------
+def capture_pty_output(master_fd, log_file):
+    while True:
+        try:
+            output = os.read(master_fd, 1024)
+            if not output:
+                break
+            decoded = output.decode('utf-8', errors='ignore')
+            print(decoded, end="", flush=True)   # đảm bảo in ra terminal ngay lập tức
+            # Thay \r bằng \n để file log xuống dòng giống terminal
+            log_file.write(decoded.replace('\r', '\n'))
+        except OSError:
+            break
+    os.close(master_fd)
+    log_file.close()
 
 # ---------------------------
 # Các tiện ích chuyển đổi, tính IoU
@@ -179,7 +269,7 @@ def precision_recall_for_class(model, data_yaml_path, class_name_or_id, conf=0.2
                                'num_images': len(image_paths)}
 
 
-def train():
+def train(cfg_path='train_yolov9c_config.yml'):
     #model = YOLO('yolov8m.pt')  # Có thể thay bằng yolov8s.pt, yolov8m.pt, v.v.
     #model = YOLO('yolov9c.pt')  # Có thể thay bằng 'yolov9c.pt yolo11m.pt yolov10n-seg.pt, yolov10s-seg.pt, yolov10l-seg.pt, v.v.
     #model = YOLO('yolov9c.pt')
@@ -193,8 +283,45 @@ def train():
     #model = RTDETR("rtdetr-l.pt")
     #model.info()
     
-    model = YOLO("yolov9c.pt")  
-    model.train(cfg="train_yolov9c_config.yml")
+    with open(cfg_path, "r") as f:
+        cfg = yaml.safe_load(f)
+
+    project = cfg.get("project", "runs/train")
+    name = cfg.get("name", "exp")
+
+    expected_save_dir  = os.path.join(project, name)
+
+    # 1. Tạo file log
+    #log_file, log_file_path = create_log_file(expected_save_dir)
+
+    # 2. Redirect stdout/stderr sang PTY
+    #master_fd, slave_fd = redirect_output_to_pty()
+
+    print("===== Training Started (Logging Enabled) =====")
+    model = YOLO(cfg.get("model", "yolov9c.pt"))
+    results = model.train(cfg=cfg_path)
+
+    # 4. Đóng PTY và ghi toàn bộ output ra terminal + file
+    #os.close(slave_fd)
+    #capture_pty_output(master_fd, log_file)
+
+    #actual_save_dir = results.save_dir
+    #print(f"Expected save_dir: {expected_save_dir}")
+    #print(f"Actual save_dir: {actual_save_dir}")
+    
+
+    #try:
+    #    shutil.copy(log_file, os.path.join(actual_save_dir, log_filename))
+    #    print(f"Copied log to: {actual_save_dir}/terminal_out.txt")
+    #except Exception as e:
+    #    print("Failed to copy log:", e)
+
+    zip_file_path = zip_result(results.save_dir)
+    onedrive_path = "/home/minhpt"  # thay bằng đường dẫn OneDrive thực tế
+    #copy_to_onedrive(zip_file_path, onedrive_path)
+
+    print("===== Training Finished =====")
+    #os.system("sudo shutdown -h now")  # Nếu dùng Ubuntu
 
     #model.train(data=DATA_YAML_PATH, epochs=200, patience=20, imgsz=1024,     
 
@@ -368,7 +495,7 @@ if __name__ == "__main__":
     #issue4_fn_test()
     #issue4_fn_fix()
 
-    train()
+    train('train_yolov9c_config_baseline.yml')
     
     #CLASS_NAME = 42   
     #model = YOLO('runs/segment/my_experiment3/weights/best.pt') 
