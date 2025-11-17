@@ -495,8 +495,8 @@ if __name__ == "__main__":
     #issue4_fn_test()
     #issue4_fn_fix()
 
-    train('train_yolov9c_config_baseline.yml')
-    
+    #train('train_yolov9c_config_baseline.yml')
+    train('train_yolov9c_config_clean_class.yml')
     #CLASS_NAME = 42   
     #model = YOLO('runs/segment/my_experiment3/weights/best.pt') 
     #p, r, info = precision_recall_for_class(model, DATA_YAML_PATH, CLASS_NAME, conf=0.2, iou_thr=0.3)
