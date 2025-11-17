@@ -299,6 +299,9 @@ def train(cfg_path='train_yolov9c_config.yml'):
 
     print("===== Training Started (Logging Enabled) =====")
     model = YOLO(cfg.get("model", "yolov9c.pt"))
+    #cls_weight = np.array([   0.016953 ,   0.098252 ,   0.072657 ,  0.0042909 ,   0.087335  ,   0.72051])
+    #cls_weight = cls_weight.astype(np.float32)
+    #model.loss_fn = model.loss_fn.clone_with_cls_weight(cls_weight)
     results = model.train(cfg=cfg_path)
 
     # 4. Đóng PTY và ghi toàn bộ output ra terminal + file
@@ -510,7 +513,7 @@ if __name__ == "__main__":
 
     #train('train_yolov9c_config_baseline.yml')
     #train('train_yolov9c_config_clean_class.yml')
-    train('train_yolov9c_config_clean_class_clsw.yml')
+    train('train_yolov9c_config_clean_class.yml')
     #CLASS_NAME = 42   
     #model = YOLO('runs/segment/my_experiment3/weights/best.pt') 
     #p, r, info = precision_recall_for_class(model, DATA_YAML_PATH, CLASS_NAME, conf=0.2, iou_thr=0.3)
