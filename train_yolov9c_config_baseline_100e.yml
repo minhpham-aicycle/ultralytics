@@ -5,7 +5,7 @@ pretrained: yolov9c.pt
 data: ../../data/tungbui/dataset_tung_1k/data.yaml
 epochs: 100
 time: null
-patience: 20
+#patience: 20
 batch: 4
 imgsz: 1024
 save: true
@@ -14,7 +14,7 @@ cache: false
 device: 0
 workers: 4
 project: runs/segment
-name: car_damage_yolov9c_baseline
+name: car_damage_yolov9c_baseline_100e
 exist_ok: false
 optimizer: auto
 verbose: true

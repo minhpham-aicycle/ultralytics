@@ -1,0 +1,19 @@
+=== Tổng quan mAP ===
+mAP50: 0.0095
+mAP50-95: 0.0031
+
+=== Thống kê chi tiết Precision / Recall / F1 / Confidence ===
+              min       max      mean    median
+Precision   0.000  1.000000  0.514460  0.543379
+Recall      0.000  0.075829  0.012638  0.000000
+F1          0.000  0.080927  0.013488  0.000000
+Confidence  0.001  0.242921  0.005647  0.002985
+
+=== AP theo từng class ===
+   Class_index       Class_name        AP
+0            0  Móp, bẹp(thụng)  0.001577
+1            1          Vỡ, nứt  0.000318
+2            2      Thủng, rách  0.006576
+3            3       Trầy, xước  0.010251
+4            4       Long, rụng  0.000071
+5            5              Mất  0.000000

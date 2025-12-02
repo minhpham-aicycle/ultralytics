@@ -9,7 +9,7 @@ patience: 20
 batch: 4
 imgsz: 1024
 save: true
-save_period: 1
+save_period: -1
 cache: false
 device: 0
 workers: 4

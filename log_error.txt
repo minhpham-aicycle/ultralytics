@@ -1,0 +1,58 @@
+Traceback (most recent call last):
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/train_and_test_yolo.py", line 1272, in <module>
+    train('train_yolov9c_config.yml')
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/train_and_test_yolo.py", line 944, in train
+    results = model.train(cfg=cfg_path)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/model.py", line 800, in train
+    self.trainer.train()
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/trainer.py", line 240, in train
+    self._do_train()
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/trainer.py", line 361, in _do_train
+    self._setup_train()
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/trainer.py", line 298, in _setup_train
+    self.amp = torch.tensor(check_amp(self.model), device=self.device)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/utils/checks.py", line 809, in check_amp
+    assert amp_allclose(YOLO("yolo11n.pt"), im)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/utils/checks.py", line 799, in amp_allclose
+    b = m(batch, imgsz=imgsz, device=device, verbose=False)[0].boxes.data  # AMP inference
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/model.py", line 187, in __call__
+    return self.predict(source, stream, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/model.py", line 557, in predict
+    return self.predictor.predict_cli(source=source) if is_cli else self.predictor(source=source, stream=stream)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/predictor.py", line 230, in __call__
+    return list(self.stream_inference(source, model, *args, **kwargs))  # merge list of Result into one
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 35, in generator_context
+    response = gen.send(None)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/predictor.py", line 337, in stream_inference
+    preds = self.inference(im, *args, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/engine/predictor.py", line 185, in inference
+    return self.model(im, augment=self.args.augment, visualize=visualize, embed=self.args.embed, *args, **kwargs)
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/nn/autobackend.py", line 663, in forward
+    y = self.model(im, augment=augment, visualize=visualize, embed=embed, **kwargs)
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/nn/tasks.py", line 139, in forward
+    return self.predict(x, *args, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/nn/tasks.py", line 157, in predict
+    return self._predict_once(x, profile, visualize, embed)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/nn/tasks.py", line 180, in _predict_once
+    x = m(x)  # run
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/mnt/d/MinhPT/aicycle/yolo/ultralytics/ultralytics/nn/modules/block.py", line 319, in forward
+    return self.cv2(torch.cat(y, 1))
+KeyboardInterrupt
+/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/conv.py:456: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at /opt/conda/conda-bld/pytorch_1712608883701/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return F.conv2d(input, weight, bias, self.stride,
+/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/conv.py:456: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at /opt/conda/conda-bld/pytorch_1712608883701/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return F.conv2d(input, weight, bias, self.stride,
+/home/minhpt/anaconda3/envs/wsl-pt-gpu/lib/python3.9/site-packages/torch/nn/modules/conv.py:456: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at /opt/conda/conda-bld/pytorch_1712608883701/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return F.conv2d(input, weight, bias, self.stride,

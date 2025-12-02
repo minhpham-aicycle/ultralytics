@@ -5,11 +5,11 @@ pretrained: yolov9c.pt
 data: ../../data/tungbui/dataset_tung_1k_clean_class/data.yaml
 epochs: 1
 time: null
-patience: 20
+#patience: 20
 batch: 4
 imgsz: 1024
 save: true
-save_period: 1
+save_period: -1
 cache: false
 device: 0
 workers: 4
